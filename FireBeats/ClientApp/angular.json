@@ -129,5 +129,8 @@
       }
     }
   },
-  "defaultProject": "FireBeats"
+  "defaultProject": "FireBeats",
+  "cli": {
+    "analytics": false
+  }
 }
