@@ -1,8 +1,16 @@
+using FireBeats.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+// Build Database Connection 
+builder.Services.AddDbContext<FireBeatsContext>(
+    options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("StringConnection"))
+    );
 
 var app = builder.Build();
 
