@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FireBeats.Domain
 {
-    public class Canciones
+    public class Songs
     {
+        [Required]
         public Guid Id { get; set; }
-
-        [MaxLength(70)]
-        public string CancionName { get; set; }
-        public string CancionPath { get; set; }
+        public string SongName { get; set; }
+        public string SongPath { get; set; }
   
     }
 }

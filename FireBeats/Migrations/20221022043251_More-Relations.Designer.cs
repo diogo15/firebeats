@@ -4,6 +4,7 @@ using FireBeats.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireBeats.Migrations
 {
     [DbContext(typeof(FireBeatsContext))]
-    partial class FireBeatsContextModelSnapshot : ModelSnapshot
+    [Migration("20221022043251_More-Relations")]
+    partial class MoreRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,10 +85,6 @@ namespace FireBeats.Migrations
             modelBuilder.Entity("FireBeats.Domain.Users", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserEmail")
@@ -103,9 +101,6 @@ namespace FireBeats.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CityId")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -125,7 +120,7 @@ namespace FireBeats.Migrations
                 {
                     b.HasOne("FireBeats.Domain.Cities", "Cities")
                         .WithOne("Users")
-                        .HasForeignKey("FireBeats.Domain.Users", "CityId")
+                        .HasForeignKey("FireBeats.Domain.Users", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
