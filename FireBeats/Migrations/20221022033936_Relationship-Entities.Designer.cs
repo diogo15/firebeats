@@ -4,6 +4,7 @@ using FireBeats.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireBeats.Migrations
 {
     [DbContext(typeof(FireBeatsContext))]
-    partial class FireBeatsContextModelSnapshot : ModelSnapshot
+    [Migration("20221022033936_Relationship-Entities")]
+    partial class RelationshipEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,36 +82,6 @@ namespace FireBeats.Migrations
                     b.ToTable("Songs");
                 });
 
-            modelBuilder.Entity("FireBeats.Domain.Users", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CityId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UserPassword")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CityId")
-                        .IsUnique();
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("FireBeats.Domain.Cities", b =>
                 {
                     b.HasOne("FireBeats.Domain.Countries", "Country")
@@ -119,23 +91,6 @@ namespace FireBeats.Migrations
                         .IsRequired();
 
                     b.Navigation("Country");
-                });
-
-            modelBuilder.Entity("FireBeats.Domain.Users", b =>
-                {
-                    b.HasOne("FireBeats.Domain.Cities", "Cities")
-                        .WithOne("Users")
-                        .HasForeignKey("FireBeats.Domain.Users", "CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cities");
-                });
-
-            modelBuilder.Entity("FireBeats.Domain.Cities", b =>
-                {
-                    b.Navigation("Users")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FireBeats.Domain.Countries", b =>

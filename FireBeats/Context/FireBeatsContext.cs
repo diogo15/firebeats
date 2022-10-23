@@ -9,7 +9,10 @@ namespace FireBeats.Context
         {
 
         }
-
-        public DbSet<Canciones> Canciones { get; set; }
+        // Add every single class you want to add to the database, so the migration que make the schema
+        public DbSet<Countries> Countries { get; set; }
+        public DbSet<Cities> Cities { get; set; }
+        public DbSet<Songs> Songs { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }
