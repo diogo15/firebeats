@@ -9,6 +9,9 @@ namespace FireBeats.Domain
         public Guid Id { get; set; }
         public string SongName { get; set; }
         public string SongPath { get; set; }
-  
+        public bool isFavorite { get; set; } = false;
+
+        // One Playlists can have Many Songs
+        public ICollection<Playlists> Playlists { get; set; }
     }
 }

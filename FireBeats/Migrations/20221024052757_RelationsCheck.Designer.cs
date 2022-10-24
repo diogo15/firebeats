@@ -4,6 +4,7 @@ using FireBeats.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireBeats.Migrations
 {
     [DbContext(typeof(FireBeatsContext))]
-    partial class FireBeatsContextModelSnapshot : ModelSnapshot
+    [Migration("20221024052757_TestMigration")]
+    partial class TestMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace FireBeats.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("FireBeats.Domain.Albums", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("AlbumName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Albums");
-                });
 
             modelBuilder.Entity("FireBeats.Domain.Cities", b =>
                 {
@@ -82,21 +69,14 @@ namespace FireBeats.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("PlaylistCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("PlaylistName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SongsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SongsId");
-
-                    b.HasIndex("UsersId");
 
                     b.ToTable("Playlists");
                 });
@@ -107,7 +87,10 @@ namespace FireBeats.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("AlbumsId")
+                    b.Property<bool>("Favorite")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("PlaylistsId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("SongName")
@@ -118,12 +101,9 @@ namespace FireBeats.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("isFavorite")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AlbumsId");
+                    b.HasIndex("PlaylistsId");
 
                     b.ToTable("Songs");
                 });
@@ -171,22 +151,11 @@ namespace FireBeats.Migrations
                     b.Navigation("Countries");
                 });
 
-            modelBuilder.Entity("FireBeats.Domain.Playlists", b =>
-                {
-                    b.HasOne("FireBeats.Domain.Songs", null)
-                        .WithMany("Playlists")
-                        .HasForeignKey("SongsId");
-
-                    b.HasOne("FireBeats.Domain.Users", null)
-                        .WithMany("Playlists")
-                        .HasForeignKey("UsersId");
-                });
-
             modelBuilder.Entity("FireBeats.Domain.Songs", b =>
                 {
-                    b.HasOne("FireBeats.Domain.Albums", null)
+                    b.HasOne("FireBeats.Domain.Playlists", null)
                         .WithMany("Songs")
-                        .HasForeignKey("AlbumsId");
+                        .HasForeignKey("PlaylistsId");
                 });
 
             modelBuilder.Entity("FireBeats.Domain.Users", b =>
@@ -200,24 +169,14 @@ namespace FireBeats.Migrations
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("FireBeats.Domain.Albums", b =>
-                {
-                    b.Navigation("Songs");
-                });
-
             modelBuilder.Entity("FireBeats.Domain.Countries", b =>
                 {
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("FireBeats.Domain.Songs", b =>
+            modelBuilder.Entity("FireBeats.Domain.Playlists", b =>
                 {
-                    b.Navigation("Playlists");
-                });
-
-            modelBuilder.Entity("FireBeats.Domain.Users", b =>
-                {
-                    b.Navigation("Playlists");
+                    b.Navigation("Songs");
                 });
 #pragma warning restore 612, 618
         }
