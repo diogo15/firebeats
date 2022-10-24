@@ -7,7 +7,7 @@
         public string CountryCode { get; set; }
 
         // "Foreign Keys"
-        //Relation One to Many to the Cities Class
+        //Relation 1:M to the Cities Class
         public virtual ICollection<Cities> Cities { get; set; }
     }
 }

@@ -23,11 +23,13 @@ namespace FireBeats.Domain
         [DisplayName("Password")]
         public string UserPassword { get; set; }
 
-        // "Foreign Keys"
-        // Relation One to One to the City Class
+        public bool Artist { get; set; }
+
+        // Foreign Keys ->
         // Reference to the class wanted to be the related to
-        [ForeignKey("Cities")]
-        public Guid CityId { get; set; }
-        public virtual Cities Cities { get; set; }
+        public Cities Cities { get; set; }
+
+        // One User can have Many Playlists
+        public ICollection<Playlists> Playlists { get; set; }
     }
 }

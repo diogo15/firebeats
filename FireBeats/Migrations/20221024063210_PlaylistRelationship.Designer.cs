@@ -4,6 +4,7 @@ using FireBeats.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FireBeats.Migrations
 {
     [DbContext(typeof(FireBeatsContext))]
-    partial class FireBeatsContextModelSnapshot : ModelSnapshot
+    [Migration("20221024063210_PlaylistRelationship")]
+    partial class PlaylistRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,17 +88,7 @@ namespace FireBeats.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SongsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SongsId");
-
-                    b.HasIndex("UsersId");
 
                     b.ToTable("Playlists");
                 });
@@ -110,6 +102,9 @@ namespace FireBeats.Migrations
                     b.Property<Guid?>("AlbumsId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("Favorite")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SongName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -117,9 +112,6 @@ namespace FireBeats.Migrations
                     b.Property<string>("SongPath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isFavorite")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -140,6 +132,9 @@ namespace FireBeats.Migrations
                     b.Property<Guid>("CitiesId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("PlaylistsId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -157,6 +152,8 @@ namespace FireBeats.Migrations
 
                     b.HasIndex("CitiesId");
 
+                    b.HasIndex("PlaylistsId");
+
                     b.ToTable("Users");
                 });
 
@@ -169,17 +166,6 @@ namespace FireBeats.Migrations
                         .IsRequired();
 
                     b.Navigation("Countries");
-                });
-
-            modelBuilder.Entity("FireBeats.Domain.Playlists", b =>
-                {
-                    b.HasOne("FireBeats.Domain.Songs", null)
-                        .WithMany("Playlists")
-                        .HasForeignKey("SongsId");
-
-                    b.HasOne("FireBeats.Domain.Users", null)
-                        .WithMany("Playlists")
-                        .HasForeignKey("UsersId");
                 });
 
             modelBuilder.Entity("FireBeats.Domain.Songs", b =>
@@ -197,6 +183,10 @@ namespace FireBeats.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FireBeats.Domain.Playlists", null)
+                        .WithMany("Users")
+                        .HasForeignKey("PlaylistsId");
+
                     b.Navigation("Cities");
                 });
 
@@ -210,14 +200,9 @@ namespace FireBeats.Migrations
                     b.Navigation("Cities");
                 });
 
-            modelBuilder.Entity("FireBeats.Domain.Songs", b =>
+            modelBuilder.Entity("FireBeats.Domain.Playlists", b =>
                 {
-                    b.Navigation("Playlists");
-                });
-
-            modelBuilder.Entity("FireBeats.Domain.Users", b =>
-                {
-                    b.Navigation("Playlists");
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
