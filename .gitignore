@@ -1,2 +1,3 @@
 ## GIT IGNORES DE NOSOTROS
-FireBeats/ClientApp/.angular/cache
+FireBeats.API/ClientApp/.angular/cache
+FireBeats.API/Migrations/*

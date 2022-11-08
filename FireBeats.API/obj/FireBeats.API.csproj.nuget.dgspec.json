@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\FABIAN\\source\\repos\\firebeats\\FireBeats.API\\FireBeats.API.csproj": {}
+    "C:\\workspace\\firebeats\\FireBeats.API\\FireBeats.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\FABIAN\\source\\repos\\firebeats\\FireBeats.API\\FireBeats.API.csproj": {
+    "C:\\workspace\\firebeats\\FireBeats.API\\FireBeats.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\FABIAN\\source\\repos\\firebeats\\FireBeats.API\\FireBeats.API.csproj",
+        "projectUniqueName": "C:\\workspace\\firebeats\\FireBeats.API\\FireBeats.API.csproj",
         "projectName": "FireBeats.API",
-        "projectPath": "C:\\Users\\FABIAN\\source\\repos\\firebeats\\FireBeats.API\\FireBeats.API.csproj",
-        "packagesPath": "C:\\Users\\FABIAN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\FABIAN\\source\\repos\\firebeats\\FireBeats.API\\obj\\",
+        "projectPath": "C:\\workspace\\firebeats\\FireBeats.API\\FireBeats.API.csproj",
+        "packagesPath": "C:\\Users\\luisd\\.nuget\\packages\\",
+        "outputPath": "C:\\workspace\\firebeats\\FireBeats.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\FABIAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\luisd\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\FABIAN\\Desktop\\Microservices Project\\packages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -75,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
