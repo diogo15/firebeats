@@ -1,4 +1,6 @@
-﻿using FireBeats.Context;
+﻿using FireBeats.API.DTOs;
+using FireBeats.API.Extensions;
+using FireBeats.Context;
 using FireBeats.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +22,8 @@ namespace FireBeats.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var countries = await _context.Countries.ToListAsync();
+            var countries = (await _context.Countries.ToListAsync())
+                .Select(country => country.AsDTO());
 
             if (countries != null)
                 return StatusCode(StatusCodes.Status200OK, countries);
@@ -37,13 +40,13 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostAsync(Countries postedCountry)
+        public async Task<ActionResult> PostAsync(CountryCreatedDTO postedCountry)
         {
             var country = new Countries
             {
                 Id = Guid.NewGuid(),
-                CountryName = postedCountry.CountryName,
-                CountryCode = postedCountry.CountryCode,
+                CountryName = postedCountry.countryName,
+                CountryCode = postedCountry.countryCode,
             };
 
             _context.Countries.Add(country);
@@ -53,14 +56,16 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAsync(Guid id, Countries updatedCountry)
+        public async Task<ActionResult> PutAsync(Guid id, CountryUpdatedDTO updatedCountry)
         {
             var existingCountry = await _context.Countries.FindAsync(id);
             if (existingCountry == null)
                 return StatusCode(StatusCodes.Status404NotFound);
 
-            existingCountry.CountryName = updatedCountry.CountryName;
-            existingCountry.CountryCode = updatedCountry.CountryCode;
+            existingCountry.CountryName = updatedCountry.countryName;
+            existingCountry.CountryCode = updatedCountry.countryCode;
+
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetByIdAsync), new { id = existingCountry.Id }, existingCountry);
         }
