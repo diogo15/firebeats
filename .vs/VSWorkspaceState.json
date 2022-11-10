@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\FireBeats.API"
   ],
-  "SelectedNode": "\\FireBeats.sln",
+  "SelectedNode": "\\FireBeats.API\\FireBeats.API.csproj",
   "PreviewInSolutionExplorer": false
 }
