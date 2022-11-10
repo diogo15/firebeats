@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FireBeats.API", "FireBeats.API\FireBeats.API.csproj", "{0907B456-C305-477A-9D44-5DC04DF472EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firebeats.Uploads", "firebeats.Uploads\Firebeats.Uploads.csproj", "{B3922F45-696C-44AD-90A3-BF3EA8988F19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{0907B456-C305-477A-9D44-5DC04DF472EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0907B456-C305-477A-9D44-5DC04DF472EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0907B456-C305-477A-9D44-5DC04DF472EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3922F45-696C-44AD-90A3-BF3EA8988F19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3922F45-696C-44AD-90A3-BF3EA8988F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3922F45-696C-44AD-90A3-BF3EA8988F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3922F45-696C-44AD-90A3-BF3EA8988F19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
