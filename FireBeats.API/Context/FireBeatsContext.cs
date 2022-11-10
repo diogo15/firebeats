@@ -12,7 +12,7 @@ namespace FireBeats.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) 
         {
-
+            
         }
 
         // Add every single class you want to add to the database, so the migration que make the schema
