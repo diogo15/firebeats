@@ -35,10 +35,10 @@ namespace FireBeats.API.Controllers
         {
             var city = await _context.Cities.SingleAsync(city => city.Id == id);
 
-            if (city == null)
-                return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
+            if (city != null)
+                return StatusCode(StatusCodes.Status200OK, city);
 
-            return StatusCode(StatusCodes.Status200OK, $"Object: {city}");
+            return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@ namespace FireBeats.API.Controllers
             _context.Cities.Add(city);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = city.Id }, city);
+            return StatusCode(StatusCodes.Status200OK, city);
         }
 
         [HttpPut("{id}")]
@@ -69,7 +69,7 @@ namespace FireBeats.API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = existingCity.Id }, existingCity);
+            return StatusCode(StatusCodes.Status204NoContent);
         }
 
         [HttpDelete("{id}")]
