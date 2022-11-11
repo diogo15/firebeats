@@ -1,4 +1,6 @@
-﻿using FireBeats.Context;
+﻿using FireBeats.API.DTOs;
+using FireBeats.API.Extensions;
+using FireBeats.Context;
 using FireBeats.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +20,69 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Cities>>> GetAsync()
+        public async Task<ActionResult> GetAsync()
         {
-            var cities = await _context.Cities.ToListAsync();
+            var cities = (await _context.Cities.ToListAsync());
 
-            return StatusCode(StatusCodes.Status200OK, cities);
+            if (cities != null)
+                return StatusCode(StatusCodes.Status200OK, cities);
+
+            return StatusCode(StatusCodes.Status400BadRequest, "Can´t get the data! :(");
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByIdAsync(Guid id)
+        {
+            var city = await _context.Cities.SingleAsync(city => city.Id == id);
+
+            if (city == null)
+                return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
+
+            return StatusCode(StatusCodes.Status200OK, $"Object: {city}");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> PostAsync(CityCreatedDTO postedCities)
+        {
+            var city = new Cities
+            {
+                Id = Guid.NewGuid(),
+                CityName = postedCities.CityName,
+                CountriesId = postedCities.CountryId,
+            };
+
+            _context.Cities.Add(city);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = city.Id }, city);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutAsync(Guid id, CityUpdatedDTO updatedCity)
+        {
+            var existingCity = await _context.Cities.FindAsync(id);
+            if (existingCity == null)
+                return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
+
+            existingCity.CityName = updatedCity.CityName;
+            existingCity.CountriesId = updatedCity.CountryId;
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = existingCity.Id }, existingCity);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            var existingCountry = await _context.Countries.FindAsync(id);
+            if (existingCountry == null)
+                return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
+
+            _context.Countries.Remove(existingCountry);
+            await _context.SaveChangesAsync();
+
+            return StatusCode(StatusCodes.Status204NoContent);
         }
     }
 }
