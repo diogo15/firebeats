@@ -27,9 +27,7 @@ namespace Firebeats.Uploads.Services
             if (settings.DecibelScale)
                 peakProvider = new MyPeak(peakProvider, 48);
 
-            //var b = new Bitmap(settings.Width, settings.TopHeight + settings.BottomHeight);
-
-            var b = "";
+            var b = "{";
                 
             var midPoint = settings.TopHeight;
 
@@ -41,8 +39,9 @@ namespace Firebeats.Uploads.Services
 
                 for (int n = 0; n < settings.PixelsPerPeak; n++)
                 {
+                    b += '"' + x + '"' + ":[";
                     b += (settings.TopHeight * currentPeak.Max).ToString() + ",";
-                    b += (settings.BottomHeight * currentPeak.Min).ToString() + "|";
+                    b += (settings.BottomHeight * currentPeak.Min).ToString() + "],";
                     x++;
                 }
 

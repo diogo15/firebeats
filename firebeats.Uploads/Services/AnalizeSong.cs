@@ -13,7 +13,8 @@ namespace Firebeats.Uploads.Services
         public SamplingPeakProvider samplingPeakProvider;
         public AveragePeakProvider averagePeakProvider;
         public StandardWaveFormRendererSettings myRendererSettings;
-        public WaveFormTextRenderer renderer;
+        public WaveFormTextRenderer renderText;
+        public WaveFormRenderer renderer;
 
         public AnalizeSong()
         {
@@ -26,11 +27,11 @@ namespace Firebeats.Uploads.Services
             this.myRendererSettings.TopHeight = 50;
             this.myRendererSettings.BottomHeight = 50;
             this.myRendererSettings.PixelsPerPeak = 10;
-            this.renderer = new WaveFormTextRenderer();
             
         }
         public async Task<bool> CreateGraph(string file) {
 
+            this.renderer = new WaveFormRenderer();
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
             var reader = new Mp3FileReaderBase(file, builder);
             this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds*100);
@@ -48,6 +49,25 @@ namespace Firebeats.Uploads.Services
             catch (Exception ex) {
                 return false;
             }            
+
+        }
+
+        public async Task<string> CreateDataGraph(string file)
+        {
+            this.renderText = new WaveFormTextRenderer();
+            var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
+            var reader = new Mp3FileReaderBase(file, builder);
+            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds * 100);
+
+            try
+            {
+                var imageData = renderText.Render(reader, maxPeakProvider, myRendererSettings);
+                return imageData;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
         }
 
