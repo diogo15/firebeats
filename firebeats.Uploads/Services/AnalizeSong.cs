@@ -2,9 +2,7 @@
 using System.Drawing.Imaging;
 using NAudio.Wave;
 using NLayer.NAudioSupport;
-using Microsoft.AspNetCore.Components.RenderTree;
-using System.Reflection.PortableExecutable;
-using System.IO;
+
 
 namespace Firebeats.Uploads.Services
 {
@@ -15,30 +13,32 @@ namespace Firebeats.Uploads.Services
         public SamplingPeakProvider samplingPeakProvider;
         public AveragePeakProvider averagePeakProvider;
         public StandardWaveFormRendererSettings myRendererSettings;
-        public WaveFormRenderer renderer;
+        public WaveFormTextRenderer renderer;
 
         public AnalizeSong()
         {
-            maxPeakProvider = new MaxPeakProvider();
-            rmsPeakProvider = new RmsPeakProvider(200);
-            samplingPeakProvider = new SamplingPeakProvider(200); 
-            averagePeakProvider = new AveragePeakProvider(4); 
-            myRendererSettings = new StandardWaveFormRendererSettings();
-            myRendererSettings.Width = 640;
-            myRendererSettings.TopHeight = 64;
-            myRendererSettings.BottomHeight = 0;
-            renderer = new WaveFormRenderer();
+            this.maxPeakProvider = new MaxPeakProvider();
+            this.rmsPeakProvider = new RmsPeakProvider(200);
+            this.samplingPeakProvider = new SamplingPeakProvider(200);
+            this.averagePeakProvider = new AveragePeakProvider(4);
+            this.myRendererSettings = new StandardWaveFormRendererSettings();
+            this.myRendererSettings.Width = 640;
+            this.myRendererSettings.TopHeight = 32;
+            this.myRendererSettings.BottomHeight = 0;
+            this.renderer = new WaveFormTextRenderer();
+            
         }
-        public async Task<bool> CreateGraph(string fileName) {
+        public async Task<bool> CreateGraph(string file) {
 
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
-            var reader = new Mp3FileReaderBase(fileName, builder);
+            var reader = new Mp3FileReaderBase(file, builder);
 
-            var image = renderer.Render(reader, maxPeakProvider, myRendererSettings);
 
             try
             {
-                var imagename = System.IO.Path.GetFileNameWithoutExtension(fileName);
+                
+                var image = renderer.Render(reader, maxPeakProvider, myRendererSettings);
+                var imagename = System.IO.Path.GetFileNameWithoutExtension(file) + ".png";
 
                 image.Save(imagename, ImageFormat.Png);
 

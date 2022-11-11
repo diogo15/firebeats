@@ -2,6 +2,7 @@
 using Firebeats.Uploads.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Firebeats.Uploads.Controllers
 {
@@ -11,6 +12,7 @@ namespace Firebeats.Uploads.Controllers
     {
         private readonly IBufferedFileUploadService _fileUploadService;
         private readonly IWebHostEnvironment _environment;
+        AnalizeSong analizer = new AnalizeSong();
 
         public FileUploadController(IBufferedFileUploadService fileUploadService, IWebHostEnvironment environment)
         {
@@ -46,13 +48,11 @@ namespace Firebeats.Uploads.Controllers
         [HttpGet("CreateGraph")]
         public async Task<ActionResult> CreateGraph(string name)
         {
-            var path = getFilePath(name);
-            var analizer = new AnalizeSong();
-
+            
             try
             {
 
-                await analizer.CreateGraph(path);
+                await analizer.CreateGraph(getFilePath(name));
                 return StatusCode(StatusCodes.Status200OK, "yuhuu");
 
             }
