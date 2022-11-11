@@ -18,13 +18,14 @@ namespace Firebeats.Uploads.Services
         public AnalizeSong()
         {
             this.maxPeakProvider = new MaxPeakProvider();
-            this.rmsPeakProvider = new RmsPeakProvider(200);
-            this.samplingPeakProvider = new SamplingPeakProvider(200);
-            this.averagePeakProvider = new AveragePeakProvider(4);
+            this.rmsPeakProvider = new RmsPeakProvider(150);
+            this.samplingPeakProvider = new SamplingPeakProvider(150);
+            this.averagePeakProvider = new AveragePeakProvider(2);
             this.myRendererSettings = new StandardWaveFormRendererSettings();
-            this.myRendererSettings.Width = 1000;
-            this.myRendererSettings.TopHeight = 32;
-            this.myRendererSettings.BottomHeight = 32;
+            
+            this.myRendererSettings.TopHeight = 50;
+            this.myRendererSettings.BottomHeight = 50;
+            this.myRendererSettings.PixelsPerPeak = 10;
             this.renderer = new WaveFormTextRenderer();
             
         }
@@ -32,7 +33,7 @@ namespace Firebeats.Uploads.Services
 
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
             var reader = new Mp3FileReaderBase(file, builder);
-
+            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds*100);
 
             try
             {
