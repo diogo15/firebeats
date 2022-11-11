@@ -27,6 +27,7 @@ namespace FireBeats.Domain
 
         // Foreign Keys ->
         // Reference to the class wanted to be the related to
+        public Guid CitiesId { get; set; }
         public Cities Cities { get; set; }
 
         // One User can have Many Playlists
