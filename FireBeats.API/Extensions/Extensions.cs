@@ -18,7 +18,7 @@ namespace FireBeats.API.Extensions
 
         public static CityDTO AsDTO(this Cities cities)
         {
-            return new CityDTO(cities.Id, cities.CityName, cities.Countries.Id);
+            return new CityDTO(cities.Id, cities.CityName, cities.CountriesId);
         }
     }
 }
