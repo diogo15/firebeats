@@ -27,7 +27,8 @@ namespace Firebeats.Uploads.Services
             this.myRendererSettings.TopHeight = 50;
             this.myRendererSettings.BottomHeight = 50;
             this.myRendererSettings.PixelsPerPeak = 10;
-            
+
+
         }
         public async Task<bool> CreateGraph(string file) {
 

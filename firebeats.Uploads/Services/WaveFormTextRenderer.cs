@@ -39,7 +39,7 @@ namespace Firebeats.Uploads.Services
 
                 for (int n = 0; n < settings.PixelsPerPeak; n++)
                 {
-                    b += '"' + x + '"' + ":[";
+                    b += "\"" + x + "\"" + ":[";
                     b += (settings.TopHeight * currentPeak.Max).ToString() + ",";
                     b += (settings.BottomHeight * currentPeak.Min).ToString() + "],";
                     x++;
@@ -48,6 +48,11 @@ namespace Firebeats.Uploads.Services
                 currentPeak = nextPeak;
             
             }
+
+            b = b.Remove(b.Length - 1);
+
+            b += "}";
+
             return b;
         }
 

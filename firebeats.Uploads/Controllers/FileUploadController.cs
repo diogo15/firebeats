@@ -45,10 +45,30 @@ namespace Firebeats.Uploads.Controllers
 
         }
 
+        [HttpGet("CreateDataGraph")]
+        public async Task<ActionResult> CreateDataGraph(string name)
+        {
+            
+            try
+            {
+
+                var data = await analizer.CreateDataGraph(getFilePath(name));
+                return StatusCode(StatusCodes.Status200OK, data);
+
+            }
+            catch
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "auch");
+
+            }
+
+        }
+
         [HttpGet("CreateGraph")]
         public async Task<ActionResult> CreateGraph(string name)
         {
-            
+
             try
             {
 

@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UploadedFiles\" />
   </ItemGroup>
 
 </Project>
