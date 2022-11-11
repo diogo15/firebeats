@@ -1,4 +1,5 @@
 ﻿using Firebeats.Uploads.Interfaces;
+using Firebeats.Uploads.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Firebeats.Uploads.Controllers
             _bufferedFileUploadService = bufferedFileUploadService;
             this._environment = environment;
         }
+
 
         [HttpPost]
         public async Task<ActionResult> Index(IFormFile file)
@@ -37,6 +39,28 @@ namespace Firebeats.Uploads.Controllers
             {
                 //Log ex
                 return StatusCode(StatusCodes.Status200OK, ex);
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> CreateGraph(string name)
+        {
+            var path = getFilePath(name);
+            var analizer = new AnalizeSong();
+
+            try
+            {
+
+                await analizer.CreateGraph(path);
+                return StatusCode(StatusCodes.Status200OK, "yuhuu");
+
+            }
+            catch
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "auch");
+
             }
 
         }
