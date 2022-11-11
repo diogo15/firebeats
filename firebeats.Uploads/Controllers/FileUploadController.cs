@@ -7,14 +7,14 @@ namespace Firebeats.Uploads.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BufferedFileUploadController : ControllerBase
+    public class FileUploadController : ControllerBase
     {
-        private readonly IBufferedFileUploadService _bufferedFileUploadService;
+        private readonly IBufferedFileUploadService _fileUploadService;
         private readonly IWebHostEnvironment _environment;
 
-        public BufferedFileUploadController(IBufferedFileUploadService bufferedFileUploadService, IWebHostEnvironment environment)
+        public FileUploadController(IBufferedFileUploadService fileUploadService, IWebHostEnvironment environment)
         {
-            _bufferedFileUploadService = bufferedFileUploadService;
+            _fileUploadService = fileUploadService;
             this._environment = environment;
         }
 
@@ -24,7 +24,7 @@ namespace Firebeats.Uploads.Controllers
         {
             try
             {
-                if (await _bufferedFileUploadService.UploadFile(file))
+                if (await _fileUploadService.UploadFile(file))
                 {
                     var path = getFilePath(file.FileName);
 
@@ -43,7 +43,7 @@ namespace Firebeats.Uploads.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("CreateGraph")]
         public async Task<ActionResult> CreateGraph(string name)
         {
             var path = getFilePath(name);

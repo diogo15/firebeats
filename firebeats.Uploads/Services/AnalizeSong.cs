@@ -4,6 +4,7 @@ using NAudio.Wave;
 using NLayer.NAudioSupport;
 using Microsoft.AspNetCore.Components.RenderTree;
 using System.Reflection.PortableExecutable;
+using System.IO;
 
 namespace Firebeats.Uploads.Services
 {
@@ -24,7 +25,7 @@ namespace Firebeats.Uploads.Services
             averagePeakProvider = new AveragePeakProvider(4); 
             myRendererSettings = new StandardWaveFormRendererSettings();
             myRendererSettings.Width = 640;
-            myRendererSettings.TopHeight = 32;
+            myRendererSettings.TopHeight = 64;
             myRendererSettings.BottomHeight = 0;
             renderer = new WaveFormRenderer();
         }
@@ -37,7 +38,10 @@ namespace Firebeats.Uploads.Services
 
             try
             {
-                image.Save("myfile.png", ImageFormat.Png);
+                var imagename = System.IO.Path.GetFileNameWithoutExtension(fileName);
+
+                image.Save(imagename, ImageFormat.Png);
+
                 return true;
             }
             catch (Exception ex) {
