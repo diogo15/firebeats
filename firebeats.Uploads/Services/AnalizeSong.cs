@@ -22,9 +22,9 @@ namespace Firebeats.Uploads.Services
             this.samplingPeakProvider = new SamplingPeakProvider(200);
             this.averagePeakProvider = new AveragePeakProvider(4);
             this.myRendererSettings = new StandardWaveFormRendererSettings();
-            this.myRendererSettings.Width = 640;
+            this.myRendererSettings.Width = 1000;
             this.myRendererSettings.TopHeight = 32;
-            this.myRendererSettings.BottomHeight = 0;
+            this.myRendererSettings.BottomHeight = 32;
             this.renderer = new WaveFormTextRenderer();
             
         }
