@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace FireBeats.Domain
 {
@@ -13,7 +14,7 @@ namespace FireBeats.Domain
          * The class you want to be the 1 in the relationship
          */
         public Guid CountriesId { get; set; }
-        
+        [JsonIgnore]
         public virtual Countries Countries { get; set; }
     }
 }
