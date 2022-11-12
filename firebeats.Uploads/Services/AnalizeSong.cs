@@ -26,7 +26,6 @@ namespace Firebeats.Uploads.Services
             
             this.myRendererSettings.TopHeight = 50;
             this.myRendererSettings.BottomHeight = 50;
-            this.myRendererSettings.PixelsPerPeak = 10;
 
 
         }
@@ -36,6 +35,7 @@ namespace Firebeats.Uploads.Services
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
             var reader = new Mp3FileReaderBase(file, builder);
             this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds*100);
+            this.myRendererSettings.PixelsPerPeak = 10;
 
             try
             {
@@ -58,7 +58,8 @@ namespace Firebeats.Uploads.Services
             this.renderText = new WaveFormTextRenderer();
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
             var reader = new Mp3FileReaderBase(file, builder);
-            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds * 100);
+            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds * 1);
+            this.myRendererSettings.PixelsPerPeak = 1;
 
             try
             {

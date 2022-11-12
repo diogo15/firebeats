@@ -37,13 +37,11 @@ namespace Firebeats.Uploads.Services
             {
                 var nextPeak = peakProvider.GetNextPeak();
 
-                for (int n = 0; n < settings.PixelsPerPeak; n++)
-                {
-                    b += "\"" + x + "\"" + ":[";
-                    b += (settings.TopHeight * currentPeak.Max).ToString() + ",";
-                    b += (settings.BottomHeight * currentPeak.Min).ToString() + "],";
-                    x++;
-                }
+                b += "\"" + x + "\"" + ":[";
+                b += (settings.TopHeight * currentPeak.Max).ToString() + ",";
+                b += (settings.BottomHeight * currentPeak.Min).ToString() + "],";
+
+                x++;
 
                 currentPeak = nextPeak;
             
