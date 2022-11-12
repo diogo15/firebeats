@@ -19,5 +19,10 @@ namespace FireBeats.API.Extensions
         {
             return new UserDTO(user.Id, user.UserName, user.UserEmail, user.UserPassword, user.Artist, user.CitiesId);
         }
+
+        public static PlaylistDTO AsDTO(this Playlists list)
+        {
+            return new PlaylistDTO(list.Id, list.PlaylistName, list.UserId);
+        }
     }
 }
