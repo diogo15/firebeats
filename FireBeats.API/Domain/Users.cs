@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,6 +29,7 @@ namespace FireBeats.Domain
         // Foreign Keys ->
         // Reference to the class wanted to be the related to
         public Guid CitiesId { get; set; }
+        [JsonIgnore]
         public Cities Cities { get; set; }
 
         // One User can have Many Playlists

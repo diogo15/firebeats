@@ -1,61 +1,74 @@
 ﻿using FireBeats.API.DTOs;
 using FireBeats.Context;
 using FireBeats.Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FireBeats.API.Controllers
 {
-    [Route("api/users")]
+    [Route("api/playlist")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class PlaylistsController : ControllerBase
     {
         private readonly FireBeatsContext _context;
 
-        public UsersController(FireBeatsContext context)
+        public PlaylistsController(FireBeatsContext context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAsync()
+        public async Task<ActionResult> GetAsyn()
         {
-            var users = await _context.Users.Include(u => u.Cities).ToListAsync();
+            var playlists = await _context.Playlists
+                .ToListAsync();
+            if (playlists != null)
+                return StatusCode(StatusCodes.Status200OK, playlists);
 
-            if (users != null)
-                return StatusCode(StatusCodes.Status200OK, users);
-
-            return StatusCode(StatusCodes.Status404NotFound);
+            return StatusCode(StatusCodes.Status404NotFound, "Playlist not found!");
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult> GetByIdAsync(Guid id)
         {
-            var user = await _context.Users.Include(u => u.Cities).SingleAsync(user => user.Id == id);
+            var playlist = await _context.Playlists
+                .Include(p => p.User)
+                .Include(p => p.Albums)
+                .Include(p => p.Songs)
+                .SingleAsync(p => p.Id == id);
 
-            if (user != null)
-                return StatusCode(StatusCodes.Status200OK, user);
+            if (playlist != null)
+                return StatusCode(StatusCodes.Status200OK, playlist);
 
-            return StatusCode(StatusCodes.Status404NotFound, "User not found!");
+            return StatusCode(StatusCodes.Status404NotFound, "Playlist not found!");
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostAsync(UserCreatedDTO postedUser)
+        public async Task<ActionResult> PostAsync(PlaylistCreatedDTO postedList)
         {
-            var user = new Users
+            var user = await _context.Users.FindAsync(postedList.userId);
+            if (user == null)
+                return StatusCode(StatusCodes.Status404NotFound);
+
+            var newPlaylist = new Playlists
             {
                 Id = Guid.NewGuid(),
-                UserName = postedUser.userName,
-                UserEmail = postedUser.userEmail,
-                UserPassword = postedUser.userPassword,
-                Artist = postedUser.isArtist,
-                CitiesId = postedUser.cityId
+                PlaylistName = postedList.listName,
+                UserId = postedList.userId,
             };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Playlists.Add(newPlaylist);
+                await _context.SaveChangesAsync();
 
-            return StatusCode(StatusCodes.Status200OK, user);
+                return StatusCode(StatusCodes.Status200OK, newPlaylist);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
         }
 
         [HttpPut("{id}")]
