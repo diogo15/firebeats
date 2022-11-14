@@ -27,7 +27,7 @@ namespace Firebeats.Uploads.Services
             if (settings.DecibelScale)
                 peakProvider = new MyPeak(peakProvider, 48);
 
-            var b = "{";
+            var b = "[";
                 
             var midPoint = settings.TopHeight;
 
@@ -37,7 +37,7 @@ namespace Firebeats.Uploads.Services
             {
                 var nextPeak = peakProvider.GetNextPeak();
 
-                b += "\"" + x + "\"" + ":[";
+                b += "[";
                 b += (settings.TopHeight * currentPeak.Max).ToString() + ",";
                 b += (settings.BottomHeight * currentPeak.Min).ToString() + "],";
 
@@ -49,7 +49,7 @@ namespace Firebeats.Uploads.Services
 
             b = b.Remove(b.Length - 1);
 
-            b += "}";
+            b += "]";
 
             return b;
         }
