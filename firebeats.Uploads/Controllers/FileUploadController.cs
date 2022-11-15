@@ -2,19 +2,21 @@
 using Firebeats.Uploads.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Firebeats.Uploads.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BufferedFileUploadController : ControllerBase
+    public class FileUploadController : ControllerBase
     {
-        private readonly IBufferedFileUploadService _bufferedFileUploadService;
+        private readonly IBufferedFileUploadService _fileUploadService;
         private readonly IWebHostEnvironment _environment;
+        AnalizeSong analizer = new AnalizeSong();
 
-        public BufferedFileUploadController(IBufferedFileUploadService bufferedFileUploadService, IWebHostEnvironment environment)
+        public FileUploadController(IBufferedFileUploadService fileUploadService, IWebHostEnvironment environment)
         {
-            _bufferedFileUploadService = bufferedFileUploadService;
+            _fileUploadService = fileUploadService;
             this._environment = environment;
         }
 
@@ -24,7 +26,7 @@ namespace Firebeats.Uploads.Controllers
         {
             try
             {
-                if (await _bufferedFileUploadService.UploadFile(file))
+                if (await _fileUploadService.UploadFile(file))
                 {
                     var path = getFilePath(file.FileName);
 
@@ -43,16 +45,34 @@ namespace Firebeats.Uploads.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("CreateDataGraph")]
+        public async Task<ActionResult> CreateDataGraph(string name)
+        {
+            
+            try
+            {
+
+                var data = await analizer.CreateDataGraph(getFilePath(name));
+                return StatusCode(StatusCodes.Status200OK, data);
+
+            }
+            catch
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "auch");
+
+            }
+
+        }
+
+        [HttpGet("CreateGraph")]
         public async Task<ActionResult> CreateGraph(string name)
         {
-            var path = getFilePath(name);
-            var analizer = new AnalizeSong();
 
             try
             {
 
-                await analizer.CreateGraph(path);
+                await analizer.CreateGraph(getFilePath(name));
                 return StatusCode(StatusCodes.Status200OK, "yuhuu");
 
             }

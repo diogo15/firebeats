@@ -2,8 +2,7 @@
 using System.Drawing.Imaging;
 using NAudio.Wave;
 using NLayer.NAudioSupport;
-using Microsoft.AspNetCore.Components.RenderTree;
-using System.Reflection.PortableExecutable;
+
 
 namespace Firebeats.Uploads.Services
 {
@@ -14,35 +13,63 @@ namespace Firebeats.Uploads.Services
         public SamplingPeakProvider samplingPeakProvider;
         public AveragePeakProvider averagePeakProvider;
         public StandardWaveFormRendererSettings myRendererSettings;
+        public WaveFormTextRenderer renderText;
         public WaveFormRenderer renderer;
 
         public AnalizeSong()
         {
-            maxPeakProvider = new MaxPeakProvider();
-            rmsPeakProvider = new RmsPeakProvider(200);
-            samplingPeakProvider = new SamplingPeakProvider(200); 
-            averagePeakProvider = new AveragePeakProvider(4); 
-            myRendererSettings = new StandardWaveFormRendererSettings();
-            myRendererSettings.Width = 640;
-            myRendererSettings.TopHeight = 32;
-            myRendererSettings.BottomHeight = 0;
-            renderer = new WaveFormRenderer();
+            this.maxPeakProvider = new MaxPeakProvider();
+            this.rmsPeakProvider = new RmsPeakProvider(150);
+            this.samplingPeakProvider = new SamplingPeakProvider(150);
+            this.averagePeakProvider = new AveragePeakProvider(2);
+            this.myRendererSettings = new StandardWaveFormRendererSettings();
+            
+            this.myRendererSettings.TopHeight = 50;
+            this.myRendererSettings.BottomHeight = 50;
+
+
         }
-        public async Task<bool> CreateGraph(string fileName) {
+        public async Task<bool> CreateGraph(string file) {
 
+            this.renderer = new WaveFormRenderer();
             var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
-            var reader = new Mp3FileReaderBase(fileName, builder);
-
-            var image = renderer.Render(reader, maxPeakProvider, myRendererSettings);
+            var reader = new Mp3FileReaderBase(file, builder);
+            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds*100);
+            this.myRendererSettings.PixelsPerPeak = 10;
 
             try
             {
-                image.Save("myfile.png", ImageFormat.Png);
+                
+                var image = renderer.Render(reader, maxPeakProvider, myRendererSettings);
+                var imagename = System.IO.Path.GetFileNameWithoutExtension(file) + ".png";
+
+                image.Save(imagename, ImageFormat.Png);
+
                 return true;
             }
             catch (Exception ex) {
                 return false;
             }            
+
+        }
+
+        public async Task<string> CreateDataGraph(string file)
+        {
+            this.renderText = new WaveFormTextRenderer();
+            var builder = new Mp3FileReaderBase.FrameDecompressorBuilder(wf => new Mp3FrameDecompressor(wf));
+            var reader = new Mp3FileReaderBase(file, builder);
+            this.myRendererSettings.Width = Convert.ToInt32(reader.TotalTime.TotalSeconds * 1);
+            this.myRendererSettings.PixelsPerPeak = 1;
+
+            try
+            {
+                var imageData = renderText.Render(reader, maxPeakProvider, myRendererSettings);
+                return imageData;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
 
         }
 
