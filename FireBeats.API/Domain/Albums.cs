@@ -1,22 +1,19 @@
-﻿namespace FireBeats.Domain
+﻿using System.Text.Json.Serialization;
+
+namespace FireBeats.Domain
 {
     public class Albums
     {
-        public Albums()
-        {
-            this.Playlists = new HashSet<Playlists>();
-        }
-
         public Guid Id { get; set; }
-        public string AlbumName { get; set; }
+        public string AlbumName { get; set; } = string.Empty;
 
         // Foreign Key
-        public Guid SongId { get; set; }
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
-        // An unique song can be in one or zero albums
-        public virtual Songs Song { get; set; }
+        // One album may be associated with one User
         public virtual Users User { get; set; }
-        public ICollection<Playlists>? Playlists { get; set; }
+        // An Album can have many Songs
+        [JsonIgnore]
+        public virtual ICollection<Songs>? Songs { get; set; }
     }
 }

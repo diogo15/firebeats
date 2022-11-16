@@ -22,6 +22,7 @@ namespace FireBeats.API.Controllers
         public async Task<ActionResult> GetAsyn()
         {
             var playlists = await _context.Playlists
+                .Include(p => p.User.Cities.Countries)
                 .ToListAsync();
             if (playlists != null)
                 return StatusCode(StatusCodes.Status200OK, playlists);
@@ -29,14 +30,12 @@ namespace FireBeats.API.Controllers
             return StatusCode(StatusCodes.Status404NotFound, "Playlist not found!");
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> GetByIdAsync(Guid id)
+        [HttpGet("{userId}")]
+        public async Task<ActionResult> GetByIdAsync(Guid userId)
         {
             var playlist = await _context.Playlists
-                .Include(p => p.User)
-                .Include(p => p.Albums)
-                .Include(p => p.Songs)
-                .SingleAsync(p => p.Id == id);
+                .Include(p => p.User.Cities.Countries)
+                .SingleAsync(p => p.UserId == userId);
 
             if (playlist != null)
                 return StatusCode(StatusCodes.Status200OK, playlist);
