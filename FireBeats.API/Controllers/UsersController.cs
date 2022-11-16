@@ -20,7 +20,10 @@ namespace FireBeats.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var users = await _context.Users.Include(u => u.Cities).ToListAsync();
+            var users = await _context.Users
+                .Include(u => u.Cities.Countries)
+                .Include(u => u.Playlists)
+                .ToListAsync();
 
             if (users != null)
                 return StatusCode(StatusCodes.Status200OK, users);
@@ -31,7 +34,10 @@ namespace FireBeats.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetByIdAsync(Guid id)
         {
-            var user = await _context.Users.Include(u => u.Cities).SingleAsync(user => user.Id == id);
+            var user = await _context.Users
+                .Include(u => u.Cities.Countries)
+                .Include(u => u.Playlists)
+                .SingleAsync(user => user.Id == id);
 
             if (user != null)
                 return StatusCode(StatusCodes.Status200OK, user);

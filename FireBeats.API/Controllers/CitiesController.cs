@@ -22,7 +22,9 @@ namespace FireBeats.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var cities = (await _context.Cities.ToListAsync());
+            var cities = await _context.Cities
+                .Include(c => c.Countries)
+                .ToListAsync();
 
             if (cities != null)
                 return StatusCode(StatusCodes.Status200OK, cities);

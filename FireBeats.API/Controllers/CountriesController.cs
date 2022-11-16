@@ -22,8 +22,7 @@ namespace FireBeats.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var countries = (await _context.Countries.ToListAsync())
-                .Select(country => country.AsDTO());
+            var countries = await _context.Countries.ToListAsync();
 
             if (countries != null)
                 return StatusCode(StatusCodes.Status200OK, countries);
