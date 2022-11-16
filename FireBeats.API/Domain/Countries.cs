@@ -1,4 +1,6 @@
-﻿namespace FireBeats.Domain
+﻿using System.Text.Json.Serialization; // Use this instead of NewtonJson
+
+namespace FireBeats.Domain
 {
     public class Countries
     {
@@ -8,6 +10,7 @@
 
         // "Foreign Keys"
         //Relation 1:M to the Cities Class
+        [JsonIgnore]
         public virtual ICollection<Cities> Cities { get; set; }
     }
 }
