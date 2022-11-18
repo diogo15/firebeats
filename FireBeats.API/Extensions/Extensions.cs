@@ -1,4 +1,4 @@
-﻿using FireBeats.API.DTOs;
+using FireBeats.API.DTOs;
 using FireBeats.Domain;
 
 namespace FireBeats.API.Extensions

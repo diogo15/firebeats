@@ -3,11 +3,11 @@ using Microsoft.Extensions.Hosting.Internal;
 
 namespace Firebeats.Uploads.Services
 {
-    public class BufferedFileUploadLocalService : IBufferedFileUploadService
+    public class FileUploadLocalService : IBufferedFileUploadService
     {
         private readonly IWebHostEnvironment _environment;
 
-        public BufferedFileUploadLocalService(IWebHostEnvironment environment)
+        public FileUploadLocalService(IWebHostEnvironment environment)
         {
             this._environment = environment;
         }

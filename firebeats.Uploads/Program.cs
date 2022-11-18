@@ -10,7 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IBufferedFileUploadService, BufferedFileUploadLocalService>();
+builder.Services.AddTransient<IBufferedFileUploadService, FileUploadLocalService>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
