@@ -1,8 +1,6 @@
 ﻿using FireBeats.API.DTOs;
-using FireBeats.API.Extensions;
 using FireBeats.Context;
 using FireBeats.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

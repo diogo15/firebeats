@@ -22,7 +22,6 @@ namespace FireBeats.API.Controllers
         {
             var users = await _context.Users
                 .Include(u => u.Cities.Countries)
-                .Include(u => u.Playlists)
                 .ToListAsync();
 
             if (users != null)
@@ -36,7 +35,6 @@ namespace FireBeats.API.Controllers
         {
             var user = await _context.Users
                 .Include(u => u.Cities.Countries)
-                .Include(u => u.Playlists)
                 .SingleAsync(user => user.Id == id);
 
             if (user != null)
