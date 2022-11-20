@@ -21,8 +21,9 @@ namespace FireBeats.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAsync()
         {
-            var songs = await _context.Songs.
-                ToListAsync();
+            var songs = await _context.Songs
+                .Include(s => s.Album)
+                .ToListAsync();
             if (songs == null)
                 return StatusCode(StatusCodes.Status404NotFound, "No songs available!");
 
@@ -37,10 +38,10 @@ namespace FireBeats.API.Controllers
                 Id = Guid.NewGuid(),
                 SongName = postedSong.songname,
                 SongPath = postedSong.songPath,
-                isFavorite = postedSong.isFavorite,
-                GenreId = postedSong.genreId,
-                AlbumId = postedSong.albumId,
-                PlaylistId = postedSong.playlistId
+                isFavorite = false,
+                GenreId = Guid.Empty,
+                AlbumId = Guid.Empty,
+                PlaylistId = Guid.Empty
             };
 
             _context.Songs.Add(newSong);
