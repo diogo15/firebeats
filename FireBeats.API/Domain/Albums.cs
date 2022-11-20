@@ -13,7 +13,6 @@ namespace FireBeats.Domain
         // One album may be associated with one User
         public virtual Users User { get; set; }
         // An Album can have many Songs
-        [JsonIgnore]
         public virtual ICollection<Songs>? Songs { get; set; }
     }
 }
