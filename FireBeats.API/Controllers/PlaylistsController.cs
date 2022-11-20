@@ -23,7 +23,6 @@ namespace FireBeats.API.Controllers
         {
             var playlists = await _context.Playlists
                 .Include(p => p.Songs)
-                .Include(p => p.User.Cities.Countries)
                 .ToListAsync();
             if (playlists != null)
                 return StatusCode(StatusCodes.Status200OK, playlists);
@@ -35,7 +34,6 @@ namespace FireBeats.API.Controllers
         public async Task<ActionResult> GetByIdAsync(Guid userId)
         {
             var playlist = await _context.Playlists
-                .Include(p => p.User.Cities.Countries)
                 .Include(p => p.Songs)
                 .SingleAsync(p => p.UserId == userId);
 

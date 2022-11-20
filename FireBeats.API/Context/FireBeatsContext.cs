@@ -23,6 +23,6 @@ namespace FireBeats.Context
         public DbSet<Users> Users { get; set; }
         public DbSet<Playlists> Playlists { get; set; }
         public DbSet<Albums> Albums { get; set; }
-        public DbSet<FireBeats.API.Domain.Genres> Genres { get; set; }
+        public DbSet<Genres> Genres { get; set; }
     }
 }
