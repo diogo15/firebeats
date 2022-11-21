@@ -13,13 +13,13 @@ namespace FireBeats.Domain
         public bool isFavorite { get; set; } = false;
 
         // Foreign Key
-        public Guid GenreId { get; set; }
+        public Guid? GenreId { get; set; }
         public Guid? PlaylistId { get; set; }
         public Guid? AlbumId { get; set; }
 
         // References To
         [JsonIgnore]
-        public virtual Genres Genre { get; set; }
+        public virtual Genres? Genre { get; set; }
         [JsonIgnore]
         public virtual Playlists? Playlist { get; set; }
         [JsonIgnore]
