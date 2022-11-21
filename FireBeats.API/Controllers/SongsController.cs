@@ -39,9 +39,9 @@ namespace FireBeats.API.Controllers
                 SongName = postedSong.songname,
                 SongPath = postedSong.songPath,
                 isFavorite = false,
-                GenreId = Guid.Empty,
-                AlbumId = Guid.Empty,
-                PlaylistId = Guid.Empty
+                GenreId = null,
+                AlbumId = null,
+                PlaylistId = null
             };
 
             _context.Songs.Add(newSong);
