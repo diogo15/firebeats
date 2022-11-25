@@ -1,4 +1,5 @@
-﻿using FireBeats.API.DTOs;
+﻿using FireBeats.API.Domain;
+using FireBeats.API.DTOs;
 using FireBeats.Context;
 using FireBeats.Domain;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,18 @@ namespace FireBeats.API.Controllers
             return StatusCode(StatusCodes.Status200OK, songs);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetByIdAsync(Guid id)
+        {
+            var song = await _context.Songs
+                .SingleAsync(s => s.Id == id);
+
+            if (song == null)
+                return StatusCode(StatusCodes.Status404NotFound, "Song not found");
+
+            return StatusCode(StatusCodes.Status200OK, song);
+        }
+
         [HttpPost]
         public async Task<ActionResult> PostAsync(SongCreatedDTO postedSong)
         {
@@ -48,6 +61,44 @@ namespace FireBeats.API.Controllers
             await _context.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status200OK);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult> PutAsync(Guid id, SongUpdatedDTO updatedSong)
+        {
+            var existingSong = await _context.Songs.FindAsync(id);
+            if (existingSong == null) return StatusCode(StatusCodes.Status404NotFound);
+            
+            try
+            {
+                existingSong.SongName = updatedSong.songname;
+                existingSong.SongPath = updatedSong.songPath;
+                existingSong.isFavorite = updatedSong.isFavorite;
+                existingSong.GenreId = updatedSong.genreId;
+                existingSong.PlaylistId = updatedSong.playlistId;
+                existingSong.AlbumId = updatedSong.albumId;
+
+                await _context.SaveChangesAsync();
+
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Uops, something went wrong, { ex }");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAsync(Guid id)
+        {
+            var existingSong = await _context.Songs.FindAsync(id);
+            if (existingSong == null)
+                return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
+
+            _context.Songs.Remove(existingSong);
+            await _context.SaveChangesAsync();
+
+            return StatusCode(StatusCodes.Status100Continue);
         }
     }
 }

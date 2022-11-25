@@ -71,17 +71,14 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAsync(Guid id, UserUpdatedDTO updatedUser)
+        public async Task<ActionResult> PutAsync(Guid id, PlaylistUpdatedDTO updatedList)
         {
-            var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser == null)
+            var existingList = await _context.Playlists.FindAsync(id);
+            if (existingList == null)
                 return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
 
-            existingUser.UserName = updatedUser.userName;
-            existingUser.UserEmail = updatedUser.userEmail;
-            existingUser.UserPassword = updatedUser.userPassword;
-            existingUser.Artist = updatedUser.isArtist;
-            existingUser.CitiesId = updatedUser.cityId;
+            existingList.PlaylistName = updatedList.listName;
+            existingList.UserId = updatedList.userId;
 
             await _context.SaveChangesAsync();
 
@@ -91,11 +88,11 @@ namespace FireBeats.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(Guid id)
         {
-            var existingUser = await _context.Users.FindAsync(id);
-            if (existingUser == null)
+            var existingList = await _context.Playlists.FindAsync(id);
+            if (existingList == null)
                 return StatusCode(StatusCodes.Status404NotFound, "Object not found! :P");
 
-            _context.Users.Remove(existingUser);
+            _context.Playlists.Remove(existingList);
             await _context.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status204NoContent);
