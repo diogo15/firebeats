@@ -30,12 +30,12 @@ namespace FireBeats.API.Controllers
             return StatusCode(StatusCodes.Status404NotFound, "Playlist not found!");
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult> GetByIdAsync(Guid userId)
+        [HttpGet("{listId}")]
+        public async Task<ActionResult> GetByIdAsync(Guid listId)
         {
             var playlist = await _context.Playlists
                 .Include(p => p.Songs)
-                .SingleAsync(p => p.UserId == userId);
+                .SingleOrDefaultAsync(p => p.Id == listId);
 
             if (playlist != null)
                 return StatusCode(StatusCodes.Status200OK, playlist);
