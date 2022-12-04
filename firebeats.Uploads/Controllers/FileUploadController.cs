@@ -28,7 +28,7 @@ namespace Firebeats.Uploads.Controllers
             {
                 if (await _fileUploadService.UploadFile(file))
                 {
-                    return StatusCode(StatusCodes.Status200OK, "\\UploadedFiles\\" + file.FileName);
+                    return StatusCode(StatusCodes.Status200OK, "/UploadedFiles/" + file.FileName);
                 }
                 else
                 {

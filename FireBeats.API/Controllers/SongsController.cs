@@ -71,12 +71,10 @@ namespace FireBeats.API.Controllers
             
             try
             {
-                existingSong.SongName = updatedSong.songname;
-                existingSong.SongPath = updatedSong.songPath;
-                existingSong.isFavorite = updatedSong.isFavorite;
-                existingSong.GenreId = updatedSong.genreId;
+                existingSong.isFavorite = false;
+                existingSong.GenreId = null;
                 existingSong.PlaylistId = updatedSong.playlistId;
-                existingSong.AlbumId = updatedSong.albumId;
+                existingSong.AlbumId = null;
 
                 await _context.SaveChangesAsync();
 
