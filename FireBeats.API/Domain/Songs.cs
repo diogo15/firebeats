@@ -10,7 +10,7 @@ namespace FireBeats.Domain
         public Guid Id { get; set; }
         public string SongName { get; set; } = string.Empty;
         public string SongPath { get; set; } = string.Empty;
-        public bool isFavorite { get; set; } = false;
+        public bool? isFavorite { get; set; } = false;
 
         // Foreign Key
         public Guid? GenreId { get; set; }

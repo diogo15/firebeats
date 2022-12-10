@@ -51,9 +51,9 @@ namespace FireBeats.API.Controllers
                 Id = Guid.NewGuid(),
                 SongName = postedSong.songname,
                 SongPath = postedSong.songPath,
-                isFavorite = false,
-                GenreId = null,
-                AlbumId = null,
+                isFavorite = postedSong.isFavorite,
+                GenreId = postedSong.genreId,
+                AlbumId = postedSong.albumId,
                 PlaylistId = null
             };
 
@@ -71,10 +71,8 @@ namespace FireBeats.API.Controllers
             
             try
             {
-                existingSong.isFavorite = false;
-                existingSong.GenreId = null;
                 existingSong.PlaylistId = updatedSong.playlistId;
-                existingSong.AlbumId = null;
+                
 
                 await _context.SaveChangesAsync();
 
