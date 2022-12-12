@@ -46,7 +46,7 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult> GetByUserAsync(Guid userId)
+        public ActionResult GetByUser(Guid userId)
         {
             var playlist = _context.Playlists
                 .Include(p => p.Songs)
