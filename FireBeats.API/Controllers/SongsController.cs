@@ -47,7 +47,7 @@ namespace FireBeats.API.Controllers
         public async Task<ActionResult> PostAsync(SongCreatedDTO postedSong)
         {
             var newSong = new Songs
-            { 
+            {
                 Id = Guid.NewGuid(),
                 SongName = postedSong.songname,
                 SongPath = postedSong.songPath,
@@ -68,7 +68,7 @@ namespace FireBeats.API.Controllers
         {
             var existingSong = await _context.Songs.FindAsync(id);
             if (existingSong == null) return StatusCode(StatusCodes.Status404NotFound);
-            
+
             try
             {
                 existingSong.PlaylistId = updatedSong.playlistId;
@@ -80,7 +80,7 @@ namespace FireBeats.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Uops, something went wrong, { ex }");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Uops, something went wrong, {ex}");
             }
         }
 
@@ -95,6 +95,18 @@ namespace FireBeats.API.Controllers
             await _context.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status100Continue);
+        }
+
+        [HttpGet("{search}")]
+        public async Task<ActionResult<IEnumerable<Songs>>> Search(String songName)
+        {
+            IQueryable<Songs> query = _context.Songs;
+            if (!string.IsNullOrWhiteSpace(songName))
+            {
+                query = query.Where(a => a.SongName.Contains(songName));
+            }
+            return await query.ToListAsync();
+
         }
     }
 }
