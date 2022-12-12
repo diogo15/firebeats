@@ -1,6 +1,7 @@
 ﻿using FireBeats.API.DTOs;
 using FireBeats.Context;
 using FireBeats.Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace FireBeats.API.Controllers
 {
     [Route("api/users")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly FireBeatsContext _context;
@@ -93,7 +95,7 @@ namespace FireBeats.API.Controllers
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
-
+        /*
         [HttpGet("CheckPassword")]
         public async Task<ActionResult> CheckUserAsync(string name, string pass)
         {
@@ -104,5 +106,6 @@ namespace FireBeats.API.Controllers
 
             return Ok(new { usercheck = "true" });
         }
+        */
     }
 }

@@ -4,11 +4,13 @@ using FireBeats.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FireBeats.API.Controllers
 {
     [Route("api/playlist")]
     [ApiController]
+    [Authorize]
     public class PlaylistsController : ControllerBase
     {
         private readonly FireBeatsContext _context;

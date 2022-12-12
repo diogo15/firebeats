@@ -3,11 +3,13 @@ using FireBeats.Context;
 using FireBeats.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FireBeats.API.Controllers
 {
     [Route("api/countries")]
     [ApiController]
+    [Authorize]
     public class CountriesController : ControllerBase
     {
         private readonly FireBeatsContext _context;

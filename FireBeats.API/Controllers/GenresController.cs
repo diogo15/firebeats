@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using FireBeats.API.Domain;
 using FireBeats.Context;
 using FireBeats.API.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FireBeats.API.Controllers
 {
     [Route("api/genre")]
     [ApiController]
+    [Authorize]
     public class GenresController : ControllerBase
     {
         private readonly FireBeatsContext _context;
