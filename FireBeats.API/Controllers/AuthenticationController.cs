@@ -23,16 +23,16 @@ namespace FireBeats.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CheckUserAsync(string UserName, string UserPassword) {
-            if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(UserPassword))
+        public async Task<ActionResult> CheckUserAsync([FromBody] Usuario request) {
+            if (!string.IsNullOrEmpty(request.UserName) && !string.IsNullOrEmpty(request.UserPassword))
             {
 
-                var existingUser = _context.Users.Where(u => u.UserName == UserName && u.UserPassword == UserPassword).FirstOrDefault();
+                var existingUser = _context.Users.Where(u => u.UserName == request.UserName && u.UserPassword == request.UserPassword).FirstOrDefault();
                 if (existingUser != null) {
 
                     var keyBytes = Encoding.ASCII.GetBytes(secretKey);
                     var claims = new ClaimsIdentity();
-                    claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, UserName));
+                    claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, request.UserName));
                     var tokenDescriptor = new SecurityTokenDescriptor
                     {
                         Subject = claims,
