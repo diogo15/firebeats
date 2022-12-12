@@ -14,7 +14,6 @@ namespace FireBeats.API.Controllers
 {
     [Route("api/genre")]
     [ApiController]
-    [Authorize]
     public class GenresController : ControllerBase
     {
         private readonly FireBeatsContext _context;
