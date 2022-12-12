@@ -9,7 +9,7 @@ using FireBeats.Context;
 
 namespace FireBeats.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
