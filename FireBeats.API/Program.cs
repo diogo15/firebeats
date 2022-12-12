@@ -1,6 +1,9 @@
 using FireBeats.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +18,26 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddDbContext<FireBeatsContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("StringConnection"))
-    );
+);
+
+var secretkey = builder.Configuration.GetSection("settings").GetSection("secretKey").ToString();
+var keyBytes = Encoding.UTF8.GetBytes(secretkey);
+
+builder.Services.AddAuthentication(configme => {
+    configme.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    configme.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(config => {
+    config.RequireHttpsMetadata = false;
+    config.SaveToken = false;
+    config.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretkey)),
+        ValidateAudience = false,
+        ValidateIssuer = false
+    };
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,6 +66,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
