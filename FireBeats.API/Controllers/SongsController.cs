@@ -97,13 +97,13 @@ namespace FireBeats.API.Controllers
             return StatusCode(StatusCodes.Status100Continue);
         }
 
-        [HttpGet("{search}")]
-        public async Task<ActionResult<IEnumerable<Songs>>> Search(String songName)
+        [HttpGet("search/{search}")]
+        public async Task<ActionResult<IEnumerable<Songs>>> Search(string search)
         {
             IQueryable<Songs> query = _context.Songs;
-            if (!string.IsNullOrWhiteSpace(songName))
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(a => a.SongName.Contains(songName));
+                query = query.Where(a => a.SongName.Contains(search));
             }
             return await query.ToListAsync();
 
