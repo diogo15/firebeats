@@ -1,6 +1,7 @@
 ﻿using FireBeats.API.DTOs;
 using FireBeats.Context;
 using FireBeats.Domain;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -91,6 +92,17 @@ namespace FireBeats.API.Controllers
             await _context.SaveChangesAsync();
 
             return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+        [HttpGet("CheckPassword")]
+        public async Task<ActionResult> CheckUserAsync(string name, string pass)
+        {
+
+            var existingUser = _context.Users.Where(u => u.UserName == name && u.UserPassword == pass).FirstOrDefault();
+            if (existingUser == null)
+                return NotFound(new { usercheck = "false" });
+
+            return Ok(new { usercheck = "true" });
         }
     }
 }
