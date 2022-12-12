@@ -43,7 +43,7 @@ namespace FireBeats.API.Controllers
                     var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
                     string tokenReturn = tokenHandler.WriteToken(tokenConfig);
 
-                    return StatusCode(StatusCodes.Status200OK, new { token = tokenReturn});
+                    return StatusCode(StatusCodes.Status200OK, new { token = tokenReturn, user = existingUser.Id });
                 }
                 else
                 {
