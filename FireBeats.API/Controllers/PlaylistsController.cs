@@ -45,6 +45,19 @@ namespace FireBeats.API.Controllers
             return StatusCode(StatusCodes.Status404NotFound, "Playlist not found!");
         }
 
+        [HttpGet("user/{userId}")]
+        public ActionResult GetByUser(Guid userId)
+        {
+            var playlist = _context.Playlists
+                .Include(p => p.Songs)
+                .Where(p => p.UserId == userId);
+
+            if (playlist != null)
+                return StatusCode(StatusCodes.Status200OK, playlist);
+
+            return StatusCode(StatusCodes.Status404NotFound, "User playlists not found!");
+        }
+
         [HttpPost]
         public async Task<ActionResult> PostAsync(PlaylistCreatedDTO postedList)
         {
