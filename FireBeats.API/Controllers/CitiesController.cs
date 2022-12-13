@@ -9,7 +9,6 @@ namespace FireBeats.API.Controllers
 {
     [Route("api/cities")]
     [ApiController]
-    [Authorize]
     public class CitiesController : ControllerBase
     {
         private readonly FireBeatsContext _context;

@@ -14,12 +14,14 @@ namespace FireBeats.Domain
         public string UserName { get; set; }
 
         [Required]
+        [StringLength(20, MinimumLength = 6)]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         [DisplayName("Email")]
         public string UserEmail { get; set; }
 
         [Required]
+        [StringLength(20, MinimumLength = 6)]
         [DataType(DataType.Password)]
         [DisplayName("Password")]
         public string UserPassword { get; set; }
